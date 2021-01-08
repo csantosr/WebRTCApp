@@ -48,50 +48,52 @@ function BroadcasterScreen({navigation}) {
   );
 
   React.useEffect(() => {
-    if (socket) socket.emit('broadcaster');
-    console.log(stream);
+    socket.on('connect', () => {
+      if (socket) socket.emit('broadcaster');
 
-    if (stream && s) {
-      socket.on('watcher', async (id, myId) => {
-        setMyId(myId);
-        const connectionBuffer = new RTCPeerConnection(config);
+      if (stream && socket) {
+        socket.on('connect');
+        socket.on('watcher', async (id, myId) => {
+          setMyId(myId);
+          const connectionBuffer = new RTCPeerConnection(config);
 
-        connectionBuffer.addStream(stream);
+          connectionBuffer.addStream(stream);
 
-        connectionBuffer.onicecandidate = ({candidate}) => {
-          if (candidate) socket.emit('candidate', id, candidate);
-        };
+          connectionBuffer.onicecandidate = ({candidate}) => {
+            if (candidate) socket.emit('candidate', id, candidate);
+          };
 
-        const localDescription = await connectionBuffer.createOffer();
+          const localDescription = await connectionBuffer.createOffer();
 
-        await connectionBuffer.setLocalDescription(localDescription);
+          await connectionBuffer.setLocalDescription(localDescription);
 
-        socket.emit('offer', id, connectionBuffer.localDescription);
+          socket.emit('offer', id, connectionBuffer.localDescription);
 
-        peerConnections.current.set(id, connectionBuffer);
-      });
+          peerConnections.current.set(id, connectionBuffer);
+        });
 
-      socket.on('candidate', (id, candidate) => {
-        const candidateBuffer = new RTCIceCandidate(candidate);
-        const connectionBuffer = peerConnections.current.get(id);
+        socket.on('candidate', (id, candidate) => {
+          const candidateBuffer = new RTCIceCandidate(candidate);
+          const connectionBuffer = peerConnections.current.get(id);
 
-        connectionBuffer.addIceCandidate(candidateBuffer);
-      });
+          connectionBuffer.addIceCandidate(candidateBuffer);
+        });
 
-      socket.on('answer', (id, description) => {
-        const connectionBuffer = peerConnections.current.get(id);
+        socket.on('answer', (id, description) => {
+          const connectionBuffer = peerConnections.current.get(id);
 
-        connectionBuffer.setRemoteDescription(description);
-      });
+          connectionBuffer.setRemoteDescription(description);
+        });
 
-      socket.on('disconnectPeer', (id) => {
-        const peerConnection = peerConnections.current.get(id);
-        if (peerConnection) {
-          peerConnection.close();
-          peerConnections.current.delete(id);
-        }
-      });
-    }
+        socket.on('disconnectPeer', (id) => {
+          const peerConnection = peerConnections.current.get(id);
+          if (peerConnection) {
+            peerConnection.close();
+            peerConnections.current.delete(id);
+          }
+        });
+      }
+    });
     return () => {
       if (socket.connected) socket.close();
     };
