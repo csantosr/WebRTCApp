@@ -48,47 +48,52 @@ function BroadcasterScreen({navigation}) {
   );
 
   React.useEffect(() => {
-    if (stream) {
-      socket.on('watcher', async (id, myId) => {
-        setMyId(myId);
-        const connectionBuffer = new RTCPeerConnection(config);
+    socket.on('connect', () => {
+      if (socket) socket.emit('broadcaster');
 
-        connectionBuffer.addStream(stream);
+      if (stream && socket) {
+        socket.on('connect');
+        socket.on('watcher', async (id, myId) => {
+          setMyId(myId);
+          const connectionBuffer = new RTCPeerConnection(config);
 
-        connectionBuffer.onicecandidate = ({candidate}) => {
-          if (candidate) socket.emit('candidate', id, candidate);
-        };
+          connectionBuffer.addStream(stream);
 
-        const localDescription = await connectionBuffer.createOffer();
+          connectionBuffer.onicecandidate = ({candidate}) => {
+            if (candidate) socket.emit('candidate', id, candidate);
+          };
 
-        await connectionBuffer.setLocalDescription(localDescription);
+          const localDescription = await connectionBuffer.createOffer();
 
-        socket.emit('offer', id, connectionBuffer.localDescription);
+          await connectionBuffer.setLocalDescription(localDescription);
 
-        peerConnections.current.set(id, connectionBuffer);
-      });
+          socket.emit('offer', id, connectionBuffer.localDescription);
 
-      socket.on('candidate', (id, candidate) => {
-        const candidateBuffer = new RTCIceCandidate(candidate);
-        const connectionBuffer = peerConnections.current.get(id);
+          peerConnections.current.set(id, connectionBuffer);
+        });
 
-        connectionBuffer.addIceCandidate(candidateBuffer);
-      });
+        socket.on('candidate', (id, candidate) => {
+          const candidateBuffer = new RTCIceCandidate(candidate);
+          const connectionBuffer = peerConnections.current.get(id);
 
-      socket.on('answer', (id, description) => {
-        const connectionBuffer = peerConnections.current.get(id);
+          connectionBuffer.addIceCandidate(candidateBuffer);
+        });
 
-        connectionBuffer.setRemoteDescription(description);
-      });
+        socket.on('answer', (id, description) => {
+          const connectionBuffer = peerConnections.current.get(id);
 
-      socket.on('disconnectPeer', (id) => {
-        const peerConnection = peerConnections.current.get(id);
-        if (peerConnection) {
-          peerConnection.close();
-          peerConnections.current.delete(id);
-        }
-      });
-    }
+          connectionBuffer.setRemoteDescription(description);
+        });
+
+        socket.on('disconnectPeer', (id) => {
+          const peerConnection = peerConnections.current.get(id);
+          if (peerConnection) {
+            peerConnection.close();
+            peerConnections.current.delete(id);
+          }
+        });
+      }
+    });
     return () => {
       if (socket.connected) socket.close();
     };
@@ -113,7 +118,7 @@ function BroadcasterScreen({navigation}) {
               minFrameRate: 30,
             },
             facingMode: 'user',
-            optional: [{sourceId}],
+            // optional: [{sourceId}],
           },
         });
 

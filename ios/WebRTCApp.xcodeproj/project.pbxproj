@@ -51,6 +51,8 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = WebRTCApp/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = WebRTCApp/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = WebRTCApp/main.m; sourceTree = "<group>"; };
+		167789CF287CD039EB913A97 /* Pods-WebRTCApp-WebRTCAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WebRTCApp-WebRTCAppTests.debug.xcconfig"; path = "Target Support Files/Pods-WebRTCApp-WebRTCAppTests/Pods-WebRTCApp-WebRTCAppTests.debug.xcconfig"; sourceTree = "<group>"; };
+		2B9D2CB6727735DA757B915D /* Pods-WebRTCApp-WebRTCAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WebRTCApp-WebRTCAppTests.release.xcconfig"; path = "Target Support Files/Pods-WebRTCApp-WebRTCAppTests/Pods-WebRTCApp-WebRTCAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* WebRTCApp-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WebRTCApp-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* WebRTCApp-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "WebRTCApp-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6304670D682D972D2EE0A590 /* Pods-WebRTCApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WebRTCApp.release.xcconfig"; path = "Target Support Files/Pods-WebRTCApp/Pods-WebRTCApp.release.xcconfig"; sourceTree = "<group>"; };
@@ -165,6 +167,21 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		7CFE2762CE9F0C42C0F690DF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				773580563D31483F7E9F5537 /* Pods-WebRTCApp.debug.xcconfig */,
+				D3702A7954387B9782D6D1EE /* Pods-WebRTCApp.release.xcconfig */,
+				167789CF287CD039EB913A97 /* Pods-WebRTCApp-WebRTCAppTests.debug.xcconfig */,
+				2B9D2CB6727735DA757B915D /* Pods-WebRTCApp-WebRTCAppTests.release.xcconfig */,
+				BA3D4BAF4235199D1DD070AD /* Pods-WebRTCApp-tvOS.debug.xcconfig */,
+				B0F0D21347B88B6A8C054ECC /* Pods-WebRTCApp-tvOS.release.xcconfig */,
+				793A9FFF96C690048DD5FBD1 /* Pods-WebRTCApp-tvOSTests.debug.xcconfig */,
+				8DEFB84A6F90B291A82C574F /* Pods-WebRTCApp-tvOSTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -227,6 +244,7 @@
 			buildPhases = (
 				1E7E67CD1412A4AEC268116F /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
+				0E02C844D9210F7149C6713F /* [CP] Prepare Artifacts */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
@@ -294,6 +312,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = NP8HY5LV99;
 						LastSwiftMigration = 1120;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
@@ -656,6 +675,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NP8HY5LV99;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = WebRTCApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -664,7 +684,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.WebRTCAppLocal;
 				PRODUCT_NAME = WebRTCApp;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -679,6 +699,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NP8HY5LV99;
 				INFOPLIST_FILE = WebRTCApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -686,7 +707,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.WebRTCAppLocal;
 				PRODUCT_NAME = WebRTCApp;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";

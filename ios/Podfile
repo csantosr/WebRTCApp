@@ -45,7 +45,7 @@ def flipper_post_install(installer)
 end
 
 target 'WebRTCApp' do
-  # Pods for WebRTCApp
+  # Pods for webrtcapp
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
   pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"
   pod 'RCTRequired', :path => "../node_modules/react-native/Libraries/RCTRequired"
@@ -70,7 +70,8 @@ target 'WebRTCApp' do
   pod 'React-jsi', :path => '../node_modules/react-native/ReactCommon/jsi'
   pod 'React-jsiexecutor', :path => '../node_modules/react-native/ReactCommon/jsiexecutor'
   pod 'React-jsinspector', :path => '../node_modules/react-native/ReactCommon/jsinspector'
-  pod 'ReactCommon/callinvoker', :path => "../node_modules/react-native/ReactCommon"
+  #pod 'ReactCommon/callinvoker', :path => "../node_modules/react-native/ReactCommon"
+  pod 'React-callinvoker', :path => "../node_modules/react-native/ReactCommon/callinvoker"
   pod 'ReactCommon/turbomodule/core', :path => "../node_modules/react-native/ReactCommon"
   pod 'Yoga', :path => '../node_modules/react-native/ReactCommon/yoga', :modular_headers => true
 
@@ -96,7 +97,7 @@ target 'WebRTCApp' do
 end
 
 target 'WebRTCApp-tvOS' do
-  # Pods for WebRTCApp-tvOS
+  # Pods for webrtcapp-tvOS
 
   target 'WebRTCApp-tvOSTests' do
     inherit! :search_paths
