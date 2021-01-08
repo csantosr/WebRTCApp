@@ -12,10 +12,10 @@ function ListerScreen({navigation}) {
     }
   }, []);
   React.useEffect(() => {
-    if (socket && socket.connected) {
+    if (socket) {
       socket.emit('list');
       socket.on('listed', (streamersResponse) => {
-        setstreamers(streamersResponse)
+        setstreamers(streamersResponse);
       });
     }
   }, [socket])
@@ -28,23 +28,23 @@ function ListerScreen({navigation}) {
 
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>
-        Lister Screen
-      </Text>
-      {streamers.length !== 0 && 
+      <Text>Active streamers</Text>
+      {streamers.length !== 0 && (
         <View>
-          {streamers.map(streamer => <Button title={`Go to stream: ${streamer}`}/>)}
+          {streamers.map((streamer) => (
+            <Button title={`Go to stream: ${streamer}`} key={streamer}/>
+          ))}
         </View>
-      }
-
-      <Button
-        title="Start a stream"
-        onPress={() => navigation.navigate('Broadcaster')}
-      />
-      <Button
-        title="Reload streamers"
-        onPress={loadStreamers}
-      />
+      )}
+      { socket && (
+        <>
+          <Button
+            title="Start a stream"
+            onPress={() => navigation.navigate('Broadcaster')}
+          />
+          <Button title="Reload streamers" onPress={loadStreamers} />
+        </>
+      )}
     </View>
   );
 }
