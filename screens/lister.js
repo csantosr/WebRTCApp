@@ -32,11 +32,19 @@ function ListerScreen({navigation}) {
       {streamers.length !== 0 && (
         <View>
           {streamers.map((streamer) => (
-            <Button title={`Go to stream: ${streamer}`} key={streamer}/>
+            <Button
+              title={`Go to stream: ${streamer}`}
+              key={streamer}
+              onPress={() =>
+                navigation.navigate('Watcher', {
+                  streamerId: streamer,
+                })
+              }
+            />
           ))}
         </View>
       )}
-      { socket && (
+      {socket && (
         <>
           <Button
             title="Start a stream"

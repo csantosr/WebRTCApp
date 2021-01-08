@@ -4,6 +4,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import ListerScreen from "./screens/lister";
 import BroadcasterScreen from './screens/broadcast';
+import WatcherScreen from './screens/watcher';
 
 const Stack = createStackNavigator();
 
@@ -13,6 +14,7 @@ function App() {
       <Stack.Navigator initialRouteName="Lister">
         <Stack.Screen name="Lister" component={ListerScreen} />
         <Stack.Screen name="Broadcaster" component={BroadcasterScreen} />
+        <Stack.Screen name="Watcher" component={WatcherScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
