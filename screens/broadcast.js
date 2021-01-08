@@ -48,7 +48,10 @@ function BroadcasterScreen({navigation}) {
   );
 
   React.useEffect(() => {
-    if (stream) {
+    if (socket) socket.emit('broadcaster');
+    console.log(stream);
+
+    if (stream && s) {
       socket.on('watcher', async (id, myId) => {
         setMyId(myId);
         const connectionBuffer = new RTCPeerConnection(config);
@@ -113,7 +116,7 @@ function BroadcasterScreen({navigation}) {
               minFrameRate: 30,
             },
             facingMode: 'user',
-            optional: [{sourceId}],
+            // optional: [{sourceId}],
           },
         });
 

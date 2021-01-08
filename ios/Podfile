@@ -1,4 +1,4 @@
-platform :ios, '10.0'
+platform :ios, '11.0'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
 def add_flipper_pods!(versions = {})
@@ -44,7 +44,7 @@ def flipper_post_install(installer)
   end
 end
 
-target 'webrtcapp' do
+target 'WebRTCApp' do
   # Pods for webrtcapp
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
   pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"
@@ -70,7 +70,8 @@ target 'webrtcapp' do
   pod 'React-jsi', :path => '../node_modules/react-native/ReactCommon/jsi'
   pod 'React-jsiexecutor', :path => '../node_modules/react-native/ReactCommon/jsiexecutor'
   pod 'React-jsinspector', :path => '../node_modules/react-native/ReactCommon/jsinspector'
-  pod 'ReactCommon/callinvoker', :path => "../node_modules/react-native/ReactCommon"
+  #pod 'ReactCommon/callinvoker', :path => "../node_modules/react-native/ReactCommon"
+  pod 'React-callinvoker', :path => "../node_modules/react-native/ReactCommon/callinvoker"
   pod 'ReactCommon/turbomodule/core', :path => "../node_modules/react-native/ReactCommon"
   pod 'Yoga', :path => '../node_modules/react-native/ReactCommon/yoga', :modular_headers => true
 
@@ -78,7 +79,7 @@ target 'webrtcapp' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-  target 'webrtcappTests' do
+  target 'WebRTCAppTests' do
     inherit! :complete
     # Pods for testing
   end
@@ -95,10 +96,10 @@ target 'webrtcapp' do
   end
 end
 
-target 'webrtcapp-tvOS' do
+target 'WebRTCApp-tvOS' do
   # Pods for webrtcapp-tvOS
 
-  target 'webrtcapp-tvOSTests' do
+  target 'WebRTCApp-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end
