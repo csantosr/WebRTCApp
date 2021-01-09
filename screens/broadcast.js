@@ -51,7 +51,7 @@ function BroadcasterScreen({navigation}) {
     socket.on('connect', () => {
       if (socket) socket.emit('broadcaster');
 
-      if (stream && socket) {
+      if (stream && stream.active && socket) {
         socket.on('connect');
         socket.on('watcher', async (id, myId) => {
           setMyId(myId);
