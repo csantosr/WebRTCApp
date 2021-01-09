@@ -48,58 +48,6 @@ function BroadcasterScreen({navigation}) {
   );
 
   React.useEffect(() => {
-    socket.on('connect', () => {
-      if (socket) socket.emit('broadcaster');
-
-      if (stream && stream.active && socket) {
-        socket.on('connect');
-        socket.on('watcher', async (id, myId) => {
-          setMyId(myId);
-          const connectionBuffer = new RTCPeerConnection(config);
-
-          connectionBuffer.addStream(stream);
-
-          connectionBuffer.onicecandidate = ({candidate}) => {
-            if (candidate) socket.emit('candidate', id, candidate);
-          };
-
-          const localDescription = await connectionBuffer.createOffer();
-
-          await connectionBuffer.setLocalDescription(localDescription);
-
-          socket.emit('offer', id, connectionBuffer.localDescription);
-
-          peerConnections.current.set(id, connectionBuffer);
-        });
-
-        socket.on('candidate', (id, candidate) => {
-          const candidateBuffer = new RTCIceCandidate(candidate);
-          const connectionBuffer = peerConnections.current.get(id);
-
-          connectionBuffer.addIceCandidate(candidateBuffer);
-        });
-
-        socket.on('answer', (id, description) => {
-          const connectionBuffer = peerConnections.current.get(id);
-
-          connectionBuffer.setRemoteDescription(description);
-        });
-
-        socket.on('disconnectPeer', (id) => {
-          const peerConnection = peerConnections.current.get(id);
-          if (peerConnection) {
-            peerConnection.close();
-            peerConnections.current.delete(id);
-          }
-        });
-      }
-    });
-    return () => {
-      if (socket.connected) socket.close();
-    };
-  }, [socket, stream]);
-
-  React.useEffect(() => {
     if (!stream) {
       (async () => {
         setIsCameraReady(false);
@@ -121,13 +69,57 @@ function BroadcasterScreen({navigation}) {
             // optional: [{sourceId}],
           },
         });
-
+        setUpSocket(streamBuffer);
         setStream(streamBuffer);
         setIsCameraReady(true);
-        socket.emit('broadcaster');
       })();
     }
   }, [stream]);
+
+  const setUpSocket = (stream_param) => {
+    if (socket.connected) {
+      socket.on('watcher', async (id, myId) => {
+        setMyId(myId);
+        const connectionBuffer = new RTCPeerConnection(config);
+
+        connectionBuffer.addStream(stream_param);
+
+        connectionBuffer.onicecandidate = ({candidate}) => {
+          if (candidate) socket.emit('candidate', id, candidate);
+        };
+
+        const localDescription = await connectionBuffer.createOffer();
+
+        await connectionBuffer.setLocalDescription(localDescription);
+
+        socket.emit('offer', id, connectionBuffer.localDescription);
+
+        peerConnections.current.set(id, connectionBuffer);
+      });
+
+      socket.on('candidate', (id, candidate) => {
+        const candidateBuffer = new RTCIceCandidate(candidate);
+        const connectionBuffer = peerConnections.current.get(id);
+
+        connectionBuffer.addIceCandidate(candidateBuffer);
+      });
+
+      socket.on('answer', (id, description) => {
+        const connectionBuffer = peerConnections.current.get(id);
+
+        connectionBuffer.setRemoteDescription(description);
+      });
+
+      socket.on('disconnectPeer', (id) => {
+        const peerConnection = peerConnections.current.get(id);
+        if (peerConnection) {
+          peerConnection.close();
+          peerConnections.current.delete(id);
+        }
+      });
+      socket.emit('broadcaster');
+    }
+  };
 
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
