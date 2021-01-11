@@ -1,5 +1,6 @@
 import * as React from 'react';
-import {View, Text, Button} from 'react-native';
+import {View, Text, Button, FlatList, ScrollView} from 'react-native';
+import WatcherTile from './watcherTile';
 
 import io from 'socket.io-client';
 
@@ -26,23 +27,35 @@ function ListerScreen({navigation}) {
     }
   }
 
+  function renderStreamer({item}) {
+    return <WatcherTile streamerId={item} />
+  }
+
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Text>Active streamers</Text>
       {streamers.length !== 0 && (
-        <View>
+        <ScrollView style={{flex: 1}}>
           {streamers.map((streamer) => (
-            <Button
-              title={`Go to stream: ${streamer}`}
-              key={streamer}
-              onPress={() =>
-                navigation.navigate('Watcher', {
-                  streamerId: streamer,
-                })
-              }
-            />
+            // <Button
+            //   title={`Go to stream: ${streamer}`}
+            //   key={streamer}
+            //   onPress={() =>
+            //     navigation.navigate('Watcher', {
+            //       streamerId: streamer,
+            //     })
+            //   }
+            // />
+            <WatcherTile streamerId={streamer} key={streamer} style={{flex:1, alignSelf: 'stretch'}}/>
           ))}
-        </View>
+        </ScrollView>
+      )}
+      {false && streamers.length !== 0 && (
+        <FlatList 
+          data={streamers}
+          renderItem={renderStreamer}
+          keyExtractor={streamer => streamer}
+        />
       )}
       {socket && (
         <>
